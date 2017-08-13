@@ -8,9 +8,10 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --watch app --watch server.js server.js",
+    "start:dev": "pm2 stop server -s && pm2 start --interpreter babel-node app/server.js --watch",
+    "start": "pm2 stop tennis:api -s && npm run build && pm2 start dist/server.js --name tennis:api",
+    "build": "babel app --out-dir dist",
     "test": "lab -t 100 test",
-    "tdd": "nodemon --exec \"npm test\" --watch app --watch test --watch server.js",
     "lint": "eslint server.js app test || true"
   },
   "keywords": [
@@ -22,6 +23,10 @@
   "author": "Abiee Alejandro <abiee.alejandro@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-latest": "^6.24.1",
     "code": "^2.0.1",
     "eslint": "^2.5.1",
     "good-console": "^5.0.0",
@@ -29,7 +34,7 @@
     "nodemon": "^1.9.1"
   },
   "dependencies": {
-    "good": "^6.1.2",
-    "hapi": "^13.2.2"
+    "good": "^7.2.0",
+    "hapi": "^16.5.2"
   }
 }

@@ -18,8 +18,7 @@
             "single"
         ],
         "semi": [
-            "error",
-            "always"
+            "never"
         ]
     }
 }
