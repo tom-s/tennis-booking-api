@@ -2,10 +2,10 @@
 
 var _server = require('./server');
 
-var _routes = require('./routes');
+var _tennis = require('./tennis');
 
 // Create server
 var server = (0, _server.initServer)(server);
 
-// Add routes
-(0, _routes.initRoutes)(server);
+// modules
+(0, _tennis.initTennis)(server);

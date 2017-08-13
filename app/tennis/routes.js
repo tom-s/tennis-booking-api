@@ -1,18 +1,17 @@
 export const initRoutes = server => {
-
   server.route({
-    method: 'GET',
-    path:'/hello',
+    method: 'POST',
+    path:'/tennis/book',
     handler: (request, reply) => {
-      return reply('hello world !!!')
+      return reply('youpi')
     }
   })
 
   server.route({
     method: 'GET',
-    path:'/youpi',
+    path:'/tennis/results',
     handler: (request, reply) => {
-      return reply('youpi')
+      return reply('the current results are')
     }
   })
 }
