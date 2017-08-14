@@ -13,7 +13,7 @@ var _nightmare = require('nightmare');
 
 var _nightmare2 = _interopRequireDefault(_nightmare);
 
-var _config = require('../../config');
+var _config = require('../../../config');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

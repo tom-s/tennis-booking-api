@@ -19,8 +19,8 @@ var initServer = exports.initServer = function initServer() {
   var server = new _hapi2.default.Server();
 
   server.connection({
-    host: 'localhost',
-    port: 8000
+    host: '0.0.0.0',
+    port: 8080
   });
 
   server.register({

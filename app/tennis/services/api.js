@@ -1,5 +1,5 @@
 import dbFactory from 'json-fs-store'
-import { DB_PATH } from '../../config'
+import { DB_PATH } from '../../../config'
 import { MS_PER_HOUR } from './utils'
 
 // Set up db

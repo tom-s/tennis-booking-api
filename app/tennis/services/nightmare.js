@@ -1,5 +1,5 @@
 import NightmareFactory from 'nightmare'
-import { LOGIN_URL, USERNAME, PWD, PLAYERS } from '../../config'
+import { LOGIN_URL, USERNAME, PWD, PLAYERS } from '../../../config'
 
 const HTTP_WAIT = 1000
 

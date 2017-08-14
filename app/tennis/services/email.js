@@ -1,5 +1,5 @@
-import { MAILGUN } from '../../config'
-import { pad } from './common'
+import { MAILGUN } from '../../../config'
+import { pad } from './utils'
 import mailgun from 'mailgun-js'
 
 // Set up emails

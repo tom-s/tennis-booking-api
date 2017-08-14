@@ -86,7 +86,7 @@ var _jsonFsStore = require('json-fs-store');
 
 var _jsonFsStore2 = _interopRequireDefault(_jsonFsStore);
 
-var _config = require('../../config');
+var _config = require('../../../config');
 
 var _utils = require('./utils');
 
