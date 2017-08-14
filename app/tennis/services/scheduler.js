@@ -1,5 +1,4 @@
 import scheduler from 'node-schedule'
-import { LOGIN_URL, SOCKET_PORT } from '../../../config'
 import { dbGet, dbAddJob, dbDeleteJob } from './api'
 import { runBooking } from './nightmare'
 import { EMAIL_TEMPLATES, formatEmail, sendEmail } from './email'
@@ -23,25 +22,25 @@ async function doBooking(data) {
   } catch(e) {
     await sendEmail(formatEmail(data, EMAIL_TEMPLATES['ERROR']))
   }
- }
+}
 
- async function scheduleBooking(data, date) {
+async function scheduleBooking(data, date) {
   try {
     const isWeekend = (date.getDay() == 6) || (date.getDay() == 0)
     const executionTime = isWeekend
       ? date.getTime() - MS_PER_HOUR * 6
       : date.getTime() - MS_PER_HOUR * 48
-    const job = {...data, executionTime}
+    const job = { ...data, executionTime }
     await dbAddJob(job)
     await sendEmail(formatEmail(job, EMAIL_TEMPLATES['SUCCESS']['BOOKING_PLANNED']))
     return true
   } catch(e) {
     await sendEmail(formatEmail(data, EMAIL_TEMPLATES['ERROR']))
   }
- }
+}
 
 const scheduleJob = (timestamp, job) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const date = new Date(timestamp)
     scheduler.scheduleJob(date, () => {
       resolve(job)
@@ -85,12 +84,12 @@ export function initScheduler() {
 }
 
 export const book = async function(data, cb) {
-  const { startTime, dateObj: { day, month, year }} = data
+  const { startTime, date } = data
   const date =  new Date(year, month-1, day, startTime) // month start at 0
   const isBookable = canBookNow(date)
   const success = (isBookable)
     ? await doBooking(data)
     : await scheduleBooking(data, date)
-  cb(data)
+  cb({ success, ...data })
   runJobs()
 }

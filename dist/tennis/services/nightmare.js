@@ -29,6 +29,8 @@ var runBooking = exports.runBooking = function runBooking(_ref) {
   var dateStr = date.day + '/' + date.month + '/' + date.year;
   var courtId = court == 1 ? 21133 : 21134;
 
+  console.log("dateStr", dateStr);
+
   return new _promise2.default(function (resolve, reject) {
     var nightmare = (0, _nightmare2.default)({
       //show: true,

@@ -10,6 +10,8 @@ export const runBooking = ({dateObj:date, startTime, endTime, court}) => {
     ? 21133
     : 21134
 
+  console.log("dateStr", dateStr)
+
   return new Promise((resolve, reject) => {
     const nightmare = NightmareFactory({
       //show: true,

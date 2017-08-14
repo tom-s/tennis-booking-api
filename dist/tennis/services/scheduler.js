@@ -210,8 +210,6 @@ var _nodeSchedule = require('node-schedule');
 
 var _nodeSchedule2 = _interopRequireDefault(_nodeSchedule);
 
-var _config = require('../../../config');
-
 var _api = require('./api');
 
 var _nightmare = require('./nightmare');
@@ -231,7 +229,7 @@ var canBookNow = function canBookNow(date) {
 };
 
 var scheduleJob = function scheduleJob(timestamp, job) {
-  return new _promise2.default(function (resolve, reject) {
+  return new _promise2.default(function (resolve) {
     var date = new Date(timestamp);
     _nodeSchedule2.default.scheduleJob(date, function () {
       resolve(job);
@@ -245,44 +243,41 @@ function initScheduler() {
 
 var book = exports.book = function () {
   var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(data, cb) {
-    var startTime, _data$dateObj, day, month, year, date, isBookable, success;
-
+    var date, isBookable, success;
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            startTime = data.startTime, _data$dateObj = data.dateObj, day = _data$dateObj.day, month = _data$dateObj.month, year = _data$dateObj.year;
-            date = new Date(year, month - 1, day, startTime); // month start at 0
-
+            date = data.date;
             isBookable = canBookNow(date);
 
             if (!isBookable) {
-              _context6.next = 9;
+              _context6.next = 8;
               break;
             }
 
-            _context6.next = 6;
+            _context6.next = 5;
             return doBooking(data);
 
-          case 6:
+          case 5:
             _context6.t0 = _context6.sent;
-            _context6.next = 12;
+            _context6.next = 11;
             break;
 
-          case 9:
-            _context6.next = 11;
+          case 8:
+            _context6.next = 10;
             return scheduleBooking(data, date);
 
-          case 11:
+          case 10:
             _context6.t0 = _context6.sent;
 
-          case 12:
+          case 11:
             success = _context6.t0;
 
-            cb(data);
+            cb((0, _extends3.default)({ success: success }, data));
             runJobs();
 
-          case 15:
+          case 14:
           case 'end':
             return _context6.stop();
         }
