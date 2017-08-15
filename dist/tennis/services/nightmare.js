@@ -30,13 +30,10 @@ var runBooking = exports.runBooking = function runBooking(_ref) {
   var startTime = '' + (0, _utils.pad)(date.getHours());
   var courtId = court == 1 ? 21133 : 21134;
 
-  console.log("dateStr", dateStr);
-  console.log("startTime", startTime);
-
   return new _promise2.default(function (resolve, reject) {
     var nightmare = (0, _nightmare2.default)({
-      show: true,
-      openDevTools: true,
+      //show: true,
+      //openDevTools: true,
       typeInterval: 20,
       pollInterval: 50 //in ms
     });
@@ -57,11 +54,9 @@ var runBooking = exports.runBooking = function runBooking(_ref) {
           ids.push(boxId);
         }
       }
-      console.log("IDS", ids);
       var id = ids.find(function (id) {
         return id.indexOf(courtId) !== -1 && id.indexOf('null') === -1;
       });
-      console.log("ID", id);
       var idCreneau = parseInt(id.split('_')[0].replace('creneau', ''), 10);
       window.ajoutReservation(idCreneau, startTime + ':00', dateStr);
       done(null, idCreneau);

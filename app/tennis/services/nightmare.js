@@ -12,13 +12,10 @@ export const runBooking = ({ date, court }) => {
     ? 21133
     : 21134
 
-  console.log("dateStr", dateStr)
-  console.log("startTime",  startTime)
-
   return new Promise((resolve, reject) => {
     const nightmare = NightmareFactory({
-      show: true,
-      openDevTools: true,
+      //show: true,
+      //openDevTools: true,
       typeInterval: 20,
       pollInterval: 50 //in ms
     })
@@ -46,9 +43,7 @@ export const runBooking = ({ date, court }) => {
               ids.push(boxId)
             }
           }
-          console.log("IDS", ids)
           var id = ids.find(id => id.indexOf(courtId) !== -1 && id.indexOf('null') === -1)
-          console.log("ID", id)
           var idCreneau = parseInt(id.split('_')[0].replace('creneau', ''), 10)
           window.ajoutReservation(idCreneau,`${startTime}:00`, dateStr)
           done(null, idCreneau)

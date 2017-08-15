@@ -1,5 +1,6 @@
 import { book } from './services/scheduler'
 
+/*
 const fakeReplyHistory = [
   {
      "id":1045378,
@@ -21,9 +22,9 @@ const fakeReplyHistory = [
      "raw":"2",
      "extractedData":"2"
   }
-]
+]*/
 
-const extractData = response => response.reduce((memo, reply) => {
+const extractData = history => history.reduce((memo, reply) => {
   const { extractedData } = reply
   if(!extractedData) return memo
   return [
@@ -34,22 +35,19 @@ const extractData = response => response.reduce((memo, reply) => {
 
 export const initRoutes = server => {
   server.route({
-    method: 'GET', // 'POST'
+    method: 'POST',
     path:'/tennis/book',
     handler: {
-      async async(request, reply) {
+      async async({ payload }, reply) {
         try {
-          //const { replyHistory } = request
-          const [ dateStr, court ] = extractData(fakeReplyHistory)
-          console.log("dateStr", dateStr)
+          const { replyHistory } = payload
+          const [ dateStr, court ] = extractData(JSON.parse(replyHistory))
           const date = new Date(dateStr)
 
           const booking = {
             date,
             court: parseInt(court)
           }
-
-          console.log("booking", booking)
 
           book(booking, (data) => {
             return reply('booking in progress', data)

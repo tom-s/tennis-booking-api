@@ -7,7 +7,7 @@ export const initServer = () => {
 
   server.connection({
     host: '0.0.0.0',
-    port: 9001
+    port: 9999
   })
 
   server.register([
