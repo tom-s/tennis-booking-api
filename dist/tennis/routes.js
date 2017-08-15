@@ -75,6 +75,8 @@ var initRoutes = exports.initRoutes = function initRoutes(server) {
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.prev = 0;
+
+                  console.log("payload", payload);
                   replyHistory = payload.replyHistory;
                   _extractData = extractData(JSON.parse(replyHistory)), _extractData2 = (0, _slicedToArray3.default)(_extractData, 2), dateStr = _extractData2[0], court = _extractData2[1];
                   date = new Date(dateStr);
@@ -87,20 +89,20 @@ var initRoutes = exports.initRoutes = function initRoutes(server) {
                   (0, _scheduler.book)(booking, function (data) {
                     return reply('booking in progress', data);
                   });
-                  _context.next = 11;
+                  _context.next = 12;
                   break;
 
-                case 8:
-                  _context.prev = 8;
+                case 9:
+                  _context.prev = 9;
                   _context.t0 = _context['catch'](0);
                   return _context.abrupt('return', reply('error').code(500));
 
-                case 11:
+                case 12:
                 case 'end':
                   return _context.stop();
               }
             }
-          }, _callee, _this, [[0, 8]]);
+          }, _callee, _this, [[0, 9]]);
         }))();
       }
     }

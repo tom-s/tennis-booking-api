@@ -40,6 +40,7 @@ export const initRoutes = server => {
     handler: {
       async async({ payload }, reply) {
         try {
+          console.log("payload", payload)
           const { replyHistory } = payload
           const [ dateStr, court ] = extractData(JSON.parse(replyHistory))
           const date = new Date(dateStr)
