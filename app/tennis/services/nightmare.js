@@ -1,21 +1,24 @@
 import NightmareFactory from 'nightmare'
 import { LOGIN_URL, USERNAME, PWD, PLAYERS } from '../../../config'
+import { pad } from './utils'
 
 const HTTP_WAIT = 1000
 
 /* Run nightmare scraper */
-export const runBooking = ({dateObj:date, startTime, endTime, court}) => {
-  const dateStr = date.day + '/' + date.month + '/' + date.year
+export const runBooking = ({ date, court }) => {
+  const dateStr =`${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${pad(date.getFullYear())}`
+  const startTime = `${pad(date.getHours())}`
   const courtId = court == 1
     ? 21133
     : 21134
 
   console.log("dateStr", dateStr)
+  console.log("startTime",  startTime)
 
   return new Promise((resolve, reject) => {
     const nightmare = NightmareFactory({
-      //show: true,
-      //openDevTools: true,
+      show: true,
+      openDevTools: true,
       typeInterval: 20,
       pollInterval: 50 //in ms
     })
@@ -43,7 +46,9 @@ export const runBooking = ({dateObj:date, startTime, endTime, court}) => {
               ids.push(boxId)
             }
           }
+          console.log("IDS", ids)
           var id = ids.find(id => id.indexOf(courtId) !== -1 && id.indexOf('null') === -1)
+          console.log("ID", id)
           var idCreneau = parseInt(id.split('_')[0].replace('creneau', ''), 10)
           window.ajoutReservation(idCreneau,`${startTime}:00`, dateStr)
           done(null, idCreneau)

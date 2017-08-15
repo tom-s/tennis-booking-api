@@ -22,7 +22,7 @@ export const EMAIL_TEMPLATES = {
   }
 }
 
-export const sendEmail = ({subject='test email', text='test email', to='thom.schell@gmail.com', cc='hester.borren@gmail.com'}) => {
+export const sendEmail = ({ subject='test email', text='test email', to='thom.schell@gmail.com', cc='hester.borren@gmail.com' }) => {
   return new Promise((resolve, reject) => {
     const message = {
       from: 'tennis-booking@thomster.ddns.net',
@@ -31,7 +31,7 @@ export const sendEmail = ({subject='test email', text='test email', to='thom.sch
       subject,
       text
     }
-    mailer.messages().send(message, (error, body) => {
+    mailer.messages().send(message, (error) => {
       if (error) {
         console.log("error sending email")
         reject(error)
@@ -44,12 +44,12 @@ export const sendEmail = ({subject='test email', text='test email', to='thom.sch
 }
 
 export const formatEmail = (data, template) => {
-  const { court, dateObj, startTime, executionTime } = data
+  const { court, date, executionTime } = data
   const executionDate = new Date(executionTime)
   const replacements = [
     {
       'name': '%date',
-      'value': `${dateObj.day}/${dateObj.month}/${dateObj.year} at ${startTime}:00`
+      'value': `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${pad(date.getFullYear())} at ${pad(date.getHours())}:00`
     },
     {
       'name': '%executionDate',

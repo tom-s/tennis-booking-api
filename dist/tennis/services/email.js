@@ -57,7 +57,7 @@ var sendEmail = exports.sendEmail = function sendEmail(_ref) {
       subject: subject,
       text: text
     };
-    mailer.messages().send(message, function (error, body) {
+    mailer.messages().send(message, function (error) {
       if (error) {
         console.log("error sending email");
         reject(error);
@@ -71,14 +71,13 @@ var sendEmail = exports.sendEmail = function sendEmail(_ref) {
 
 var formatEmail = exports.formatEmail = function formatEmail(data, template) {
   var court = data.court,
-      dateObj = data.dateObj,
-      startTime = data.startTime,
+      date = data.date,
       executionTime = data.executionTime;
 
   var executionDate = new Date(executionTime);
   var replacements = [{
     'name': '%date',
-    'value': dateObj.day + '/' + dateObj.month + '/' + dateObj.year + ' at ' + startTime + ':00'
+    'value': (0, _utils.pad)(date.getDate()) + '/' + (0, _utils.pad)(date.getMonth() + 1) + '/' + (0, _utils.pad)(date.getFullYear()) + ' at ' + (0, _utils.pad)(date.getHours()) + ':00'
   }, {
     'name': '%executionDate',
     'value': (0, _utils.pad)(executionDate.getDate()) + '/' + (0, _utils.pad)(executionDate.getMonth() + 1) + '/' + (0, _utils.pad)(executionDate.getFullYear()) + ' at ' + (0, _utils.pad)(executionDate.getHours()) + ':' + (0, _utils.pad)(executionDate.getMinutes())

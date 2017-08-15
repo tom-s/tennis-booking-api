@@ -13,6 +13,10 @@ var _good = require('good');
 
 var _good2 = _interopRequireDefault(_good);
 
+var _hapiAsyncHandler = require('hapi-async-handler');
+
+var _hapiAsyncHandler2 = _interopRequireDefault(_hapiAsyncHandler);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initServer = exports.initServer = function initServer() {
@@ -20,10 +24,12 @@ var initServer = exports.initServer = function initServer() {
 
   server.connection({
     host: '0.0.0.0',
-    port: 9000
+    port: 9001
   });
 
-  server.register({
+  server.register([{
+    register: _hapiAsyncHandler2.default
+  }, {
     register: _good2.default,
     options: {
       reporters: {
@@ -39,7 +45,7 @@ var initServer = exports.initServer = function initServer() {
         }, 'stdout']
       }
     }
-  }, function (err) {
+  }], function (err) {
     if (err) {
       throw err; // something bad happened loading the plugin
     }

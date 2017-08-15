@@ -1,21 +1,27 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.initRoutes = undefined;
 
-var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _slicedToArray2 = require("babel-runtime/helpers/slicedToArray");
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _toConsumableArray2 = require("babel-runtime/helpers/toConsumableArray");
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _utils = require('./services/utils');
-
-var _scheduler = require('./services/scheduler');
+var _scheduler = require("./services/scheduler");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30,7 +36,7 @@ var fakeReplyHistory = [{
 }, {
   "id": 1045305,
   "raw": "tomorrow at 5pm",
-  "extractedData": "Tue Aug 15 2017 17:00:00 GMT+0200 (RDT)"
+  "extractedData": "Wed Aug 16 2017 17:00:00 GMT+0200 (RDT)"
 }, {
   "id": 1045306,
   "raw": "2",
@@ -48,34 +54,52 @@ var extractData = function extractData(response) {
 
 var initRoutes = exports.initRoutes = function initRoutes(server) {
   server.route({
-    method: 'POST',
+    method: 'GET', // 'POST'
     path: '/tennis/book',
-    handler: function handler(request, reply) {
-      try {
-        console.log("request", request);
-        //const { replyHistory } = request
+    handler: {
+      async: function async(request, reply) {
+        var _this = this;
 
-        var _extractData = extractData(fakeReplyHistory),
-            _extractData2 = (0, _slicedToArray3.default)(_extractData, 2),
-            dateObj = _extractData2[0],
-            court = _extractData2[1];
+        return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+          var _extractData, _extractData2, dateStr, court, date, booking;
 
-        var date = new Date(dateObj);
+          return _regenerator2.default.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
 
-        var booking = {
-          date: date,
-          //startTime: pad(date.getHours()),
-          //endTime: pad(date.getHours() + 1),
-          court: parseInt(court)
-        };
+                  //const { replyHistory } = request
+                  _extractData = extractData(fakeReplyHistory), _extractData2 = (0, _slicedToArray3.default)(_extractData, 2), dateStr = _extractData2[0], court = _extractData2[1];
 
-        console.log("booking", booking);
+                  console.log("dateStr", dateStr);
+                  date = new Date(dateStr);
+                  booking = {
+                    date: date,
+                    court: parseInt(court)
+                  };
 
-        (0, _scheduler.book)(booking, function (data) {
-          return reply('booking in progress', data);
-        });
-      } catch (e) {
-        return reply('error').code(500);
+
+                  console.log("booking", booking);
+
+                  (0, _scheduler.book)(booking, function (data) {
+                    return reply('booking in progress', data);
+                  });
+                  _context.next = 12;
+                  break;
+
+                case 9:
+                  _context.prev = 9;
+                  _context.t0 = _context["catch"](0);
+                  return _context.abrupt("return", reply('error').code(500));
+
+                case 12:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, _this, [[0, 9]]);
+        }))();
       }
     }
   });

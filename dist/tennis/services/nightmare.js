@@ -15,26 +15,28 @@ var _nightmare2 = _interopRequireDefault(_nightmare);
 
 var _config = require('../../../config');
 
+var _utils = require('./utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var HTTP_WAIT = 1000;
 
 /* Run nightmare scraper */
 var runBooking = exports.runBooking = function runBooking(_ref) {
-  var date = _ref.dateObj,
-      startTime = _ref.startTime,
-      endTime = _ref.endTime,
+  var date = _ref.date,
       court = _ref.court;
 
-  var dateStr = date.day + '/' + date.month + '/' + date.year;
+  var dateStr = (0, _utils.pad)(date.getDate()) + '/' + (0, _utils.pad)(date.getMonth() + 1) + '/' + (0, _utils.pad)(date.getFullYear());
+  var startTime = '' + (0, _utils.pad)(date.getHours());
   var courtId = court == 1 ? 21133 : 21134;
 
   console.log("dateStr", dateStr);
+  console.log("startTime", startTime);
 
   return new _promise2.default(function (resolve, reject) {
     var nightmare = (0, _nightmare2.default)({
-      //show: true,
-      //openDevTools: true,
+      show: true,
+      openDevTools: true,
       typeInterval: 20,
       pollInterval: 50 //in ms
     });
@@ -55,9 +57,11 @@ var runBooking = exports.runBooking = function runBooking(_ref) {
           ids.push(boxId);
         }
       }
+      console.log("IDS", ids);
       var id = ids.find(function (id) {
         return id.indexOf(courtId) !== -1 && id.indexOf('null') === -1;
       });
+      console.log("ID", id);
       var idCreneau = parseInt(id.split('_')[0].replace('creneau', ''), 10);
       window.ajoutReservation(idCreneau, startTime + ':00', dateStr);
       done(null, idCreneau);
